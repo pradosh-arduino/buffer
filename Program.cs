@@ -4,7 +4,7 @@
     /// This is an custom made input buffer so that we can get the output even if the user have not completed typing.
     /// coded by @pradosh-arduino (github) 
     /// </summary>
-    class superbuffer {
+    class prad_buffer {
         private char[] buffer = new char[1024];
 
         /// <summary>
