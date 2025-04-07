@@ -5,7 +5,8 @@
     /// coded by @pradosh-arduino (github) 
     /// </summary>
     public class prad_buffer {
-        private char[] buffer = new char[1024];
+        private char[] buffer;
+        private int buffer_size;
 
         /// <summary>
         /// Stores the current index of the input buffer.
@@ -16,6 +17,25 @@
         /// Stores the total length of the input buffer.
         /// </summary>
         public int length = 0;
+
+        /// <summary>
+        /// Constructor to initialize the buffer with its size.
+        /// </summary>
+        public prad_buffer()
+        {
+            buffer_size = 1024;
+            buffer = new char[buffer_size];
+        }
+
+        /// <summary>
+        /// Constructor to initialize the buffer with your own size.
+        /// </summary>
+        /// <param name="size">The size of the buffer.</param>
+        public prad_buffer(int size)
+        {
+            buffer_size = size;
+            buffer = new char[buffer_size];
+        }
 
         /// <summary>
         /// Function to add a character to the buffer.
@@ -43,7 +63,7 @@
         }
 
         /// <summary>
-        /// Gets the input and stores it in the input buffer array cleanly. It does not return the buffer.
+        /// Gets the input and stores it in the input buffer array cleanly. It does <b>NOT</b> return the buffer.
         /// </summary>
         public void get_input(){
             ConsoleKeyInfo current;
@@ -106,7 +126,7 @@
         }
 
         /// <summary>
-        /// Gets the input and stores it in the input buffer array cleanly. It does not return the buffer. We can add a prefix to the input.
+        /// Gets the input and stores it in the input buffer array cleanly. It does <b>NOT</b> return the buffer. We can add a prefix to the input.
         /// </summary>
         /// <param name="prefix">The actual prefix needed to be displayed</param>
         public void get_input(string prefix){
@@ -186,6 +206,24 @@
         /// <returns>A proper string with buffer values.</returns>
         public string get_buffer_as_string(){
             return new string(buffer, 0, length);
+        }
+
+        /// <summary>
+        /// Function to get the allocated buffer size.
+        /// </summary>
+        /// <returns>The buffer size in integer.</returns>
+        public int get_buffer_size(){
+            return buffer_size;
+        }
+
+        /// <summary>
+        /// Function to set the buffer size.
+        /// This function will <b>CLEAR</b> the buffer and reallocate the buffer with the new size.
+        /// </summary>
+        /// <param name="size">The size of buffer (default is 1024)</param>
+        public void set_buffer_size(int size){
+            buffer_size = size;
+            buffer = new char[buffer_size];
         }
     }
 }
