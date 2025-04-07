@@ -7,7 +7,7 @@
     <Nullable>enable</Nullable>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
 
-    <Version>1.1.3</Version>
+    <Version>1.2.0</Version>
     <Authors>Pradosh (helloImPR)</Authors>
     <Description>A fast, completely controllable input method solution for C#.</Description>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
@@ -20,6 +20,9 @@
   <ItemGroup>
     <None Include="readme.md" Pack="true" PackagePath="\"/>
     <None Include="icon.png" Pack="true" PackagePath="\"/>
+
+    <!-- Removing tests from compiling together -->
+    <Compile Remove="tests\**\*.cs" />
   </ItemGroup>
 
 </Project>
