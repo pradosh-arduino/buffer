@@ -17,13 +17,13 @@ Well don't worry! This `buffer` nuget package aims to solve the issues of `ReadL
 
 #### Example Syntax
 ```cs
-prad_buffer input_buffer = new prad_buffer();
+PradBuffer InputBuffer = new PradBuffer();
 
-input_buffer.get_input();
+InputBuffer.GetInput();
 
-string value = input_buffer.get_buffer_as_string();
+string value = InputBuffer.GetBufferAsString();
 
-input_buffer.clear_buffer();
+InputBuffer.clear_buffer();
 ```
 
 ### Input process
@@ -32,7 +32,7 @@ The input function is overloaded so there are two different ways to use it.
 #### Method 1
 `code.cs`
 ```cs
-input_buffer.get_input();
+InputBuffer.GetInput();
 ```
 
 `output:`
@@ -43,7 +43,7 @@ input_buffer.get_input();
 #### Method 2
 `code.cs`
 ```cs
-input_buffer.get_input("command > ");
+InputBuffer.GetInput("command > ");
 ```
 
 `output:`
