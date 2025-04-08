@@ -23,7 +23,7 @@ InputBuffer.GetInput();
 
 string value = InputBuffer.GetBufferAsString();
 
-InputBuffer.clear_buffer();
+InputBuffer.ClearBuffer();
 ```
 
 ### Input process
