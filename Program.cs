@@ -4,68 +4,68 @@
     /// This is an custom made input buffer so that we can get the output even if the user have not completed typing.
     /// coded by @pradosh-arduino (github) 
     /// </summary>
-    public class prad_buffer {
+    public class PradBuffer {
         private char[] buffer;
-        private int buffer_size;
+        private int BufferSize;
 
         /// <summary>
         /// Stores the current index of the input buffer.
         /// </summary>
-        public int buffer_index = 0;
+        public int BufferIndex = 0;
 
         /// <summary>
         /// Stores the total length of the input buffer.
         /// </summary>
-        public int length = 0;
+        public int Length = 0;
 
         /// <summary>
         /// Constructor to initialize the buffer with its size.
         /// </summary>
-        public prad_buffer()
+        public PradBuffer()
         {
-            buffer_size = 1024;
-            buffer = new char[buffer_size];
+            BufferSize = 1024;
+            buffer = new char[BufferSize];
         }
 
         /// <summary>
         /// Constructor to initialize the buffer with your own size.
         /// </summary>
         /// <param name="size">The size of the buffer.</param>
-        public prad_buffer(int size)
+        public PradBuffer(int size)
         {
-            buffer_size = size;
-            buffer = new char[buffer_size];
+            BufferSize = size;
+            buffer = new char[BufferSize];
         }
 
         /// <summary>
         /// Function to add a character to the buffer.
         /// </summary>
         /// <param name="c">The character to be added.</param>
-        public void add_char(char c){
-            if(buffer_index >= buffer.Length)
+        public void AddChar(char c){
+            if(BufferIndex >= buffer.Length)
                 return;
 
-            buffer[buffer_index] = c;
-            buffer_index++;
-            length++;
+            buffer[BufferIndex] = c;
+            BufferIndex++;
+            Length++;
         }
 
         /// <summary>
         /// Clears the buffer for next usage, This function will not be automatically called, you have to call by yourself.
         /// </summary>
-        public void clear_buffer(){
+        public void ClearBuffer(){
             for(int i = 0; i < buffer.Length; i++){
                 buffer[i] = '\0';
             }
 
-            buffer_index = 0;
-            length = 0;
+            BufferIndex = 0;
+            Length = 0;
         }
 
         /// <summary>
         /// Gets the input and stores it in the input buffer array cleanly. It does <b>NOT</b> return the buffer.
         /// </summary>
-        public void get_input(){
+        public void GetInput(){
             ConsoleKeyInfo current;
 
             while (true)
@@ -76,12 +76,12 @@
 
                 if (current.Key == ConsoleKey.Enter)
                 {
-                    if(length != 0)
+                    if(Length != 0)
                         Console.WriteLine();
 
-                    for(int i=0; i<length;i++){
+                    for(int i=0; i<Length;i++){
                         if(buffer[i] == '\0'){
-                            length = i;
+                            Length = i;
                             break;
                         }
                     }
@@ -90,36 +90,36 @@
                 }
                 else if (current.Key == ConsoleKey.Backspace)
                 {
-                    if (buffer_index > 0)
+                    if (BufferIndex > 0)
                     {
-                        buffer_index--;
-                        length--;
+                        BufferIndex--;
+                        Length--;
                         Console.Write("\b \b");
                     }
                 }
                 else if(current.Key == ConsoleKey.LeftArrow){
                     if(Console.CursorLeft > 0){
                         Console.CursorLeft--;
-                        buffer_index--;
+                        BufferIndex--;
                     }
                 }
                 else if(current.Key == ConsoleKey.RightArrow){
-                    if(Console.CursorLeft < length){
+                    if(Console.CursorLeft < Length){
                         Console.CursorLeft++;
-                        buffer_index++;
+                        BufferIndex++;
                     }
                 }
                 else if(current.Key == ConsoleKey.Home){
                     Console.Write("\r");
-                    buffer_index = 0;
+                    BufferIndex = 0;
                 }
                 else if(current.Key == ConsoleKey.End){
-                    Console.CursorLeft = length;
-                    buffer_index = length;
+                    Console.CursorLeft = Length;
+                    BufferIndex = Length;
                 }
                 else
                 {
-                    add_char(current.KeyChar);
+                    AddChar(current.KeyChar);
                     Console.Write(current.KeyChar);
                 }
             }
@@ -129,7 +129,7 @@
         /// Gets the input and stores it in the input buffer array cleanly. It does <b>NOT</b> return the buffer. We can add a prefix to the input.
         /// </summary>
         /// <param name="prefix">The actual prefix needed to be displayed</param>
-        public void get_input(string prefix){
+        public void GetInput(string prefix){
             ConsoleKeyInfo current;
 
             Console.Write(prefix);
@@ -142,12 +142,12 @@
 
                 if (current.Key == ConsoleKey.Enter)
                 {
-                    if(length != 0)
+                    if(Length != 0)
                         Console.WriteLine();
 
-                    for(int i=0; i<length;i++){
+                    for(int i=0; i<Length;i++){
                         if(buffer[i] == '\0'){
-                            length = i;
+                            Length = i;
                             break;
                         }
                     }
@@ -156,37 +156,37 @@
                 }
                 else if (current.Key == ConsoleKey.Backspace)
                 {
-                    if (buffer_index > 0)
+                    if (BufferIndex > 0)
                     {
-                        buffer_index--;
-                        length--;
+                        BufferIndex--;
+                        Length--;
                         Console.Write("\b \b");
                     }
                 }
                 else if(current.Key == ConsoleKey.LeftArrow){
                     if(Console.CursorLeft > prefix.Length){
                         Console.CursorLeft--;
-                        buffer_index--;
+                        BufferIndex--;
                     }
                 }
                 else if(current.Key == ConsoleKey.RightArrow){
-                    if(Console.CursorLeft < length + prefix.Length){
+                    if(Console.CursorLeft < Length + prefix.Length){
                         Console.CursorLeft++;
-                        buffer_index++;
+                        BufferIndex++;
                     }
                 }
                 else if(current.Key == ConsoleKey.Home){
                     Console.Write("\r");
                     Console.CursorLeft += prefix.Length;
-                    buffer_index = 0;
+                    BufferIndex = 0;
                 }
                 else if(current.Key == ConsoleKey.End){
-                    Console.CursorLeft = length + prefix.Length;
-                    buffer_index = length;
+                    Console.CursorLeft = Length + prefix.Length;
+                    BufferIndex = Length;
                 }
                 else
                 {
-                    add_char(current.KeyChar);
+                    AddChar(current.KeyChar);
                     Console.Write(current.KeyChar);
                 }
             }
@@ -196,7 +196,7 @@
         /// Function to get the buffer values.
         /// </summary>
         /// <returns>It returns the buffer as an character array.</returns>
-        public char[] get_buffer(){
+        public char[] GetBuffer(){
             return buffer;
         }
 
@@ -204,16 +204,16 @@
         /// Function to get the buffer array as a string.
         /// </summary>
         /// <returns>A proper string with buffer values.</returns>
-        public string get_buffer_as_string(){
-            return new string(buffer, 0, length);
+        public string GetBufferAsString(){
+            return new string(buffer, 0, Length);
         }
 
         /// <summary>
         /// Function to get the allocated buffer size.
         /// </summary>
         /// <returns>The buffer size in integer.</returns>
-        public int get_buffer_size(){
-            return buffer_size;
+        public int GetBufferSize(){
+            return BufferSize;
         }
 
         /// <summary>
@@ -221,9 +221,9 @@
         /// This function will <b>CLEAR</b> the buffer and reallocate the buffer with the new size.
         /// </summary>
         /// <param name="size">The size of buffer (default is 1024)</param>
-        public void set_buffer_size(int size){
-            buffer_size = size;
-            buffer = new char[buffer_size];
+        public void SetBufferSize(int size){
+            BufferSize = size;
+            buffer = new char[BufferSize];
         }
     }
 }
