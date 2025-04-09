@@ -2,12 +2,12 @@
 
   <PropertyGroup>
     <OutputType>Library</OutputType>
-    <TargetFramework>net7.0</TargetFramework>
+    <TargetFrameworks>net7.0;net8.0;net9.0</TargetFrameworks>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
 
-    <Version>2.0.1</Version>
+    <Version>2.1.0</Version>
     <Authors>Pradosh (helloImPR)</Authors>
     <Description>A fast, completely controllable input method solution for C#.</Description>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
