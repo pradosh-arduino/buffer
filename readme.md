@@ -1,7 +1,17 @@
+![Buffer package in action](./buffer.gif)
+
 ## Better Input for C#
+
 Have you ever wondered if you could get the values of what users are typing in real time with `Console.ReadLine()` function? or do you want full control of input?
 
 Well don't worry! This `buffer` nuget package aims to solve the issues of `ReadLine()` and gives more control to the user!
+
+### Features
+- Data updates in real time.
+- Control of buffer when to clear and when to call next time.
+- Directly get the buffer as a character array.
+- Supports multithreading to have extra control.
+- Supports a wide range of .NET Frameworks.
 
 ### Usage
 
@@ -15,8 +25,8 @@ Well don't worry! This `buffer` nuget package aims to solve the issues of `ReadL
 4. Clear the buffer (you have to do it **manually** by invoking a method)
 ```
 
-#### Example Syntax
-```cs
+#### Example Usage
+```cpp
 PradBuffer InputBuffer = new PradBuffer();
 
 InputBuffer.GetInput();
@@ -31,7 +41,7 @@ The input function is overloaded so there are two different ways to use it.
 
 #### Method 1
 `code.cs`
-```cs
+```cpp
 InputBuffer.GetInput();
 ```
 
@@ -42,7 +52,7 @@ InputBuffer.GetInput();
 
 #### Method 2
 `code.cs`
-```cs
+```cpp
 InputBuffer.GetInput("command > ");
 ```
 
@@ -50,3 +60,36 @@ InputBuffer.GetInput("command > ");
 ```
 command > <waits here for input>
 ```
+
+### Importing the package
+You can check out the [nuget.org](https://www.nuget.org/packages/buffer) site for extra detailed installation.
+
+For simply just dotnet :
+```bash
+dotnet add package buffer
+```
+
+### Contributing
+
+Contributions are welcome! Please follow these steps:
+
+1. Fork the repository.
+2. Create a new branch:
+    ```bash
+    git checkout -b feature-name
+    ```
+3. Commit your changes:
+    ```bash
+    git commit -m "Add feature-name"
+    ```
+4. Push to your branch:
+    ```bash
+    git push origin feature-name
+    ```
+5. Open a pull request.
+
+### Contribution guidelines
+- Follow the existing code style.
+- Write clear and concise commit messages.
+- Ensure that your code is well-documented.
+- Write tests for new features and ensure all tests pass before submitting a pull request.
