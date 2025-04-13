@@ -1,100 +1,164 @@
-![Buffer package in action](./buffer.gif)
+# ⚡️ Better Input for C# with `buffer`
 
-## Better Input for C#
+![Buffer package in action](https://raw.githubusercontent.com/pradosh-arduino/buffer/ac911024b63e8a7f5b245be591859991fe23aec4/buffer.gif)
 
-Have you ever wondered if you could get the values of what users are typing in real time with `Console.ReadLine()` function? or do you want full control of input?
+Ever wished `Console.ReadLine()` could give you real-time input? Want full control over what the user types *as they type it*?
 
-Well don't worry! This `buffer` nuget package aims to solve the issues of `ReadLine()` and gives more control to the user!
+Introducing **`buffer`** — a lightweight NuGet package that gives you real-time input handling and total buffer control in C#. Perfect for building interactive CLI tools, REPLs, or anything where `ReadLine()` just doesn’t cut it.
 
-### Features
-- Data updates in real time.
-- Control of buffer when to clear and when to call next time.
-- Directly get the buffer as a character array.
-- Supports multithreading to have extra control.
-- Supports a wide range of .NET Frameworks.
+---
 
-### Usage
+## ✨ Features
 
-#### Process
-```md
-1. Initialize the object
-2. Get the input from the user (does **not** return the value)
-3. Read the buffer to get the values by using two methods
-    1. Get the buffer as char[] itself.
-    2. Get the buffer as a string.
-4. Clear the buffer (you have to do it **manually** by invoking a method)
-```
+- ✅ Real-time updates while users type
+- 🧠 Manual control over the input buffer
+- 🧵 Thread-safe & supports multithreading
+- 🔠 Access buffer as `char[]` or `string`
+- 💻 Compatible with a wide range of .NET Frameworks
 
-#### Example Usage
-```cpp
-PradBuffer InputBuffer = new PradBuffer();
+---
 
-InputBuffer.GetInput();
+## 🚀 Quick Start
 
-string value = InputBuffer.GetBufferAsString();
+### 🧩 Installation
 
-InputBuffer.ClearBuffer();
-```
+Add it via CLI:
 
-### Input process
-The input function is overloaded so there are two different ways to use it.
-
-#### Method 1
-`code.cs`
-```cpp
-InputBuffer.GetInput();
-```
-
-`output:`
-```
-<waits here for input>
-```
-
-#### Method 2
-`code.cs`
-```cpp
-InputBuffer.GetInput("command > ");
-```
-
-`output:`
-```
-command > <waits here for input>
-```
-
-### Importing the package
-You can check out the [nuget.org](https://www.nuget.org/packages/buffer) site for extra detailed installation.
-
-For simply just dotnet :
 ```bash
 dotnet add package buffer
 ```
 
-### Contributing
+Or visit the [NuGet page →](https://www.nuget.org/packages/buffer)
 
-Contributions are welcome! Please follow these steps:
+---
 
-1. Fork the repository.
-2. Create a new branch:
-    ```bash
-    git checkout -b feature-name
-    ```
-3. Commit your changes:
-    ```bash
-    git commit -m "Add feature-name"
-    ```
-4. Push to your branch:
-    ```bash
-    git push origin feature-name
-    ```
-5. Open a pull request.
+## 🔧 How It Works
 
-### Contribution guidelines
-- Follow the existing code style.
-- Write clear and concise commit messages.
-- Ensure that your code is well-documented.
-- Write tests for new features and ensure all tests pass before submitting a pull request.
+1. Initialize the input buffer
+    - With a buffer size
+    - Without a buffer size
+2. Start listening for input
+3. Read the buffer manually as `char[]` or `string`
+4. Clear the buffer when you’re done
 
-### Links
-- [NuGet Package](https://www.nuget.org/packages/buffer)
-- [Github source code](https://github.com/pradosh-arduino/buffer)
-- [Blog Post](https://dev.to/pradcode/better-input-method-for-c-4hnb)
+### 🧪 Example
+
+```cpp
+PradBuffer InputBuffer = new PradBuffer();
+
+// Start capturing input (does NOT return value)
+InputBuffer.GetInput();
+
+// Read it manually
+string value = InputBuffer.GetBufferAsString();
+
+// Clear when done
+InputBuffer.ClearBuffer();
+```
+
+### 🧩 Manual Buffer Size Example
+
+```csharp
+PradBuffer InputBuffer = new PradBuffer(10);
+
+// Start capturing input (does NOT return value)
+InputBuffer.GetInput(); // Only 10 characters can be stored. (0 to 9)
+
+// Read it manually
+string value = InputBuffer.GetBufferAsString();
+
+// Clear when done
+InputBuffer.ClearBuffer();
+```
+
+### 🚀 Using its maximum potential
+
+Here is a code example which uses Multithreading to get the input buffer in real-time.
+
+```cpp
+using prad;
+
+class sample_program {
+    static PradBuffer buffer = new PradBuffer();
+
+    static void Main(string[] args) {
+        Thread thread = new Thread(invoker);
+        thread.Start();
+
+        buffer.GetInput("command > ");
+
+        string value = buffer.GetBufferAsString();
+
+        buffer.ClearBuffer();
+
+        Console.WriteLine(value);
+    }
+
+    static void invoker(){
+        if(buffer.Length > 0)
+            Console.WriteLine(buffer.GetBufferAsString());
+
+        Thread.Sleep(1000);
+        invoker();
+    }
+}
+```
+
+🛠️ Unlock the full power of `buffer` by using multi-threading to get realtime data even before the user has completed typing.
+
+---
+
+## 🛠 Overloaded Input Methods
+
+### Option 1 – No prompt
+```cpp
+InputBuffer.GetInput();
+```
+```txt
+<waits here for input>
+```
+
+### Option 2 – With custom prompt
+```cpp
+InputBuffer.GetInput("command > ");
+```
+```txt
+command > <waits here for input>
+```
+
+---
+
+## 🤝 Contributing
+
+Contributions are always welcome!
+
+### Steps
+```bash
+# 1. Fork the repo
+# 2. Create a branch
+git checkout -b feature-name
+
+# 3. Make changes & commit
+git commit -m "Add feature-name"
+
+# 4. Push and open PR
+git push origin feature-name
+```
+
+### Please:
+- Stick to the existing code style
+- Write helpful commit messages
+- Document new features
+- Add tests when possible ✅
+
+---
+
+## 🔗 Links
+
+- 📦 [NuGet Package](https://www.nuget.org/packages/buffer)
+- 🧑‍💻 [GitHub Source](https://github.com/pradosh-arduino/buffer)
+- 📝 [Blog Post](https://dev.to/pradcode/better-input-method-for-c-4hnb)
+
+---
+
+Give it a ⭐ if you like it and share it with your fellow devs!
