@@ -50,6 +50,9 @@ Or visit the [NuGet page →](https://www.nuget.org/packages/buffer)
 ### 🧪 Example
 
 ```cpp
+using Prad.Buffer;
+
+...
 PradBuffer InputBuffer = new PradBuffer();
 
 // Start capturing input (does NOT return value)
@@ -64,7 +67,10 @@ InputBuffer.ClearBuffer();
 
 ### 🧩 Manual Buffer Size Example
 
-```csharp
+```cpp
+using Prad.Buffer;
+
+...
 PradBuffer InputBuffer = new PradBuffer(10);
 
 // Start capturing input (does NOT return value)
@@ -82,7 +88,7 @@ InputBuffer.ClearBuffer();
 Here is a code example which uses Multithreading to get the input buffer in real-time.
 
 ```cpp
-using prad;
+using Prad.Buffer;
 
 class sample_program {
     static PradBuffer buffer = new PradBuffer();

@@ -1,0 +1,10 @@
+root = true
+
+[*.cs]
+# Use file-scoped namespaces
+dotnet_style_namespace_declarations = file_scoped:suggestion
+
+
+csharp_indent_case_contents = true
+csharp_indent_switch_labels = true
+csharp_new_line_before_open_brace = all
