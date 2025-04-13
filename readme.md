@@ -93,3 +93,8 @@ Contributions are welcome! Please follow these steps:
 - Write clear and concise commit messages.
 - Ensure that your code is well-documented.
 - Write tests for new features and ensure all tests pass before submitting a pull request.
+
+### Links
+- [NuGet Package](https://www.nuget.org/packages/buffer)
+- [Github source code](https://github.com/pradosh-arduino/buffer)
+- [Blog Post](https://dev.to/pradcode/better-input-method-for-c-4hnb)
