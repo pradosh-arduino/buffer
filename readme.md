@@ -2,6 +2,12 @@
 
 ![Buffer package in action](https://raw.githubusercontent.com/pradosh-arduino/buffer/ac911024b63e8a7f5b245be591859991fe23aec4/buffer.gif)
 
+[![NuGet Downloads](https://img.shields.io/nuget/dt/buffer?style=flat-square&logo=nuget&logoColor=ffffff&logoSize=auto&label=Downloads&labelColor=323ca8&color=545454)](https://www.nuget.org/stats/packages/buffer?groupby=Version)
+[![GitHub Actions Workflow Status](https://img.shields.io/github/actions/workflow/status/pradosh-arduino/buffer/dotnet.yml?style=flat-square&logo=github&logoColor=ffffff&logoSize=auto&label=Build)](https://github.com/pradosh-arduino/buffer/actions/workflows/dotnet.yml)
+[![NuGet Version](https://img.shields.io/nuget/vpre/buffer?style=flat-square&logo=hackthebox&logoColor=ffffff&logoSize=auto&label=Latest%20Version)](https://www.nuget.org/packages/buffer)
+
+
+
 Ever wished `Console.ReadLine()` could give you real-time input? Want full control over what the user types *as they type it*?
 
 Introducing **`buffer`** — a lightweight NuGet package that gives you real-time input handling and total buffer control in C#. Perfect for building interactive CLI tools, REPLs, or anything where `ReadLine()` just doesn’t cut it.
