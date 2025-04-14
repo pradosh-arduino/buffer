@@ -1,8 +1,6 @@
 # ⚡️ Better Input for C# with `buffer`
 
-<div align="center">
-    <img src="https://raw.githubusercontent.com/pradosh-arduino/buffer/ac911024b63e8a7f5b245be591859991fe23aec4/buffer.gif" alt="Buffer package in action" style="width: 80%; height: auto;" />
-</div>
+![Buffer package in action](https://raw.githubusercontent.com/pradosh-arduino/buffer/ac911024b63e8a7f5b245be591859991fe23aec4/buffer.gif)
 
 [![NuGet Downloads](https://img.shields.io/nuget/dt/buffer?style=flat-square&logo=nuget&logoColor=ffffff&logoSize=auto&label=Downloads&labelColor=323ca8&color=545454)](https://www.nuget.org/stats/packages/buffer?groupby=Version)
 [![GitHub Actions Workflow Status](https://img.shields.io/github/actions/workflow/status/pradosh-arduino/buffer/dotnet.yml?style=flat-square&logo=github&logoColor=ffffff&logoSize=auto&label=Build)](https://github.com/pradosh-arduino/buffer/actions/workflows/dotnet.yml)
@@ -92,9 +90,7 @@ InputBuffer.ClearBuffer();
 ```
 
 ### Here is a demo of Limited Buffer Size of 10 characters
-<div align="center">
-    <img src="https://raw.githubusercontent.com/pradosh-arduino/buffer/main/buffer-limit.gif" alt="buffer-limit" style="width: 70%; height: auto;" />
-</div>
+![buffer-limit](https://raw.githubusercontent.com/pradosh-arduino/buffer/main/buffer-limit.gif)
 
 ### 🧩 Syntax Highlighting in Real-time
 ```cpp
@@ -132,9 +128,7 @@ while(true){
 ```
 
 #### Demo of Syntax Highlighting
-<div align="center">
-    <img src="https://raw.githubusercontent.com/pradosh-arduino/buffer/main/syntax-highlights.gif" alt="Syntax Highlighting Demo" style="width: 70%; height: auto;" />
-</div>
+![Syntax Highlighting Demo](https://raw.githubusercontent.com/pradosh-arduino/buffer/main/syntax-highlights.gif)
 
 ### 🚀 Using its maximum potential
 
