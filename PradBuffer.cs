@@ -14,7 +14,7 @@ public class PradBuffer
     /// <summary>
     /// Stores the syntax highlighting data for the input buffer
     /// </summary>
-    public Dictionary<string, ConsoleColor> SyntaxHighlights { get; set; } = new Dictionary<string, ConsoleColor>();
+    public Dictionary<string, object> SyntaxHighlights { get; set; } = new Dictionary<string, object>();
 
     /// <summary>
     /// Variable to enable syntax highlights during input.
@@ -259,16 +259,48 @@ public class PradBuffer
             foreach (var highlight in SyntaxHighlights)
             {
                 string keyword = highlight.Key;
-                ConsoleColor color = highlight.Value;
 
-                if (str.Substring(currentIndex).StartsWith(keyword))
+                switch (highlight.Value)
                 {
-                    Console.ForegroundColor = color;
-                    Console.Write(keyword);
-                    Console.ResetColor();
+                    case ConsoleColor color:
+                        if (str.Substring(currentIndex).StartsWith(keyword))
+                        {
+                            Console.ForegroundColor = color;
+                            Console.Write(keyword);
+                            Console.ResetColor();
 
-                    currentIndex += keyword.Length;
-                    matched = true;
+                            currentIndex += keyword.Length;
+                            matched = true;
+                        }
+                        break;
+
+                    case int colorInt:
+                        if (str.Substring(currentIndex).StartsWith(keyword))
+                        {
+                            Console.ForegroundColor = (ConsoleColor)colorInt;
+                            Console.Write(keyword);
+                            Console.ResetColor();
+
+                            currentIndex += keyword.Length;
+                            matched = true;
+                        }
+                        break;
+
+                    case string customColor:
+                        if (str.Substring(currentIndex).StartsWith(keyword))
+                        {
+                            Console.Write(customColor + keyword + "\x1b[0m");
+                            currentIndex += keyword.Length;
+                            matched = true;
+                        }
+                        break;
+
+                    default:
+                        throw new InvalidOperationException($"Unsupported highlight value type: {highlight.Value.GetType()}");
+                }
+
+                if (matched)
+                {
                     break;
                 }
             }

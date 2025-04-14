@@ -1,6 +1,8 @@
 # ⚡️ Better Input for C# with `buffer`
 
-![Buffer package in action](https://raw.githubusercontent.com/pradosh-arduino/buffer/ac911024b63e8a7f5b245be591859991fe23aec4/buffer.gif)
+<div align="center">
+    <img src="https://raw.githubusercontent.com/pradosh-arduino/buffer/ac911024b63e8a7f5b245be591859991fe23aec4/buffer.gif" alt="Buffer package in action" style="width: 80%; height: auto;" />
+</div>
 
 [![NuGet Downloads](https://img.shields.io/nuget/dt/buffer?style=flat-square&logo=nuget&logoColor=ffffff&logoSize=auto&label=Downloads&labelColor=323ca8&color=545454)](https://www.nuget.org/stats/packages/buffer?groupby=Version)
 [![GitHub Actions Workflow Status](https://img.shields.io/github/actions/workflow/status/pradosh-arduino/buffer/dotnet.yml?style=flat-square&logo=github&logoColor=ffffff&logoSize=auto&label=Build)](https://github.com/pradosh-arduino/buffer/actions/workflows/dotnet.yml)
@@ -90,18 +92,29 @@ InputBuffer.ClearBuffer();
 ```
 
 ### Here is a demo of Limited Buffer Size of 10 characters
-![buffer-limit](https://raw.githubusercontent.com/pradosh-arduino/buffer/main/buffer-limit.gif)
+<div align="center">
+    <img src="https://raw.githubusercontent.com/pradosh-arduino/buffer/main/buffer-limit.gif" alt="buffer-limit" style="width: 70%; height: auto;" />
+</div>
 
 ### 🧩 Syntax Highlighting in Real-time
 ```cpp
 PradBuffer Buffer = new PradBuffer();
 
+Console.WriteLine("Enter something to get started, ");
+
 string s = "";
 
+// Supports Console Colors
 Buffer.SyntaxHighlights.Add("prad", ConsoleColor.Red);
-Buffer.SyntaxHighlights.Add("static", ConsoleColor.Blue);
-Buffer.SyntaxHighlights.Add("public", ConsoleColor.Green);
-Buffer.SyntaxHighlights.Add("=", ConsoleColor.Yellow);
+
+// Supports Integers, color will be selected with respective to ConsoleColor enum.
+Buffer.SyntaxHighlights.Add("static", 9);
+
+// Directly supports ANSI Escape codes. **Beware any mistakes CAN and WILL break the input.**
+Buffer.SyntaxHighlights.Add("public", "\x1b[32m"); // Green ANSI Escape code.
+
+// ! Throws exception if any other data type is being used.
+// Buffer.SyntaxHighlights.Add("=", 56.3d);
 
 Buffer.EnableSyntaxHighlighting = true;
 
@@ -119,7 +132,9 @@ while(true){
 ```
 
 #### Demo of Syntax Highlighting
-![Syntax Highlighting Demo](https://raw.githubusercontent.com/pradosh-arduino/buffer/main/syntax-highlights.gif)
+<div align="center">
+    <img src="https://raw.githubusercontent.com/pradosh-arduino/buffer/main/syntax-highlights.gif" alt="Syntax Highlighting Demo" style="width: 70%; height: auto;" />
+</div>
 
 ### 🚀 Using its maximum potential
 
