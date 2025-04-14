@@ -93,8 +93,7 @@ InputBuffer.ClearBuffer();
 ```
 
 ### Here is a demo of Limited Buffer Size of 10 characters
-
-
+![buffer-limit](https://github.com/user-attachments/assets/3f459e05-65dc-4ce7-8f8a-20c09f660702)
 
 ### 🚀 Using its maximum potential
 
