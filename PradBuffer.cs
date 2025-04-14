@@ -12,6 +12,16 @@ public class PradBuffer
     private int BufferSize;
 
     /// <summary>
+    /// Stores the syntax highlighting data for the input buffer
+    /// </summary>
+    public Dictionary<string, ConsoleColor> SyntaxHighlights { get; set; } = new Dictionary<string, ConsoleColor>();
+
+    /// <summary>
+    /// Variable to enable syntax highlights during input.
+    /// </summary>
+    public bool EnableSyntaxHighlighting { get; set; } = false;
+
+    /// <summary>
     /// <para> Stores the current index of the input buffer. </para>
     /// <para> It is the position of the cursor in the string (buffer array). </para>
     /// <para> It will only be less-than the 'Length' variable. </para>
@@ -181,7 +191,7 @@ public class PradBuffer
                             Console.Write(" ");
                         }
                         Console.Write("\r");
-                        Console.Write(GetBufferAsString() + " ");
+                        WriteHighlight(GetBufferAsString() + " ");
 
                         Console.CursorLeft = BufferIndex;
                     }
@@ -223,12 +233,51 @@ public class PradBuffer
                         Console.Write(" ");
                     }
                     Console.Write("\r");
-                    Console.Write(GetBufferAsString());
+                    WriteHighlight(GetBufferAsString());
 
                     BufferIndex = Console.CursorLeft;
                     break;
             }
 
+        }
+    }
+
+    private void WriteHighlight(string str)
+    {
+        if (!EnableSyntaxHighlighting)
+        {
+            Console.Write(str);
+            return;
+        }
+
+        int currentIndex = 0;
+
+        while (currentIndex < str.Length)
+        {
+            bool matched = false;
+
+            foreach (var highlight in SyntaxHighlights)
+            {
+                string keyword = highlight.Key;
+                ConsoleColor color = highlight.Value;
+
+                if (str.Substring(currentIndex).StartsWith(keyword))
+                {
+                    Console.ForegroundColor = color;
+                    Console.Write(keyword);
+                    Console.ResetColor();
+
+                    currentIndex += keyword.Length;
+                    matched = true;
+                    break;
+                }
+            }
+
+            if (!matched)
+            {
+                Console.Write(str[currentIndex]);
+                currentIndex++;
+            }
         }
     }
 
@@ -346,7 +395,7 @@ public class PradBuffer
                             Console.Write(" ");
                         }
                         Console.Write("\r");
-                        Console.Write(prefix + GetBufferAsString() + " ");
+                        WriteHighlight(prefix + GetBufferAsString() + " ");
 
                         Console.CursorLeft = BufferIndex + prefix.Length;
                     }
@@ -389,7 +438,7 @@ public class PradBuffer
                         Console.Write(" ");
                     }
                     Console.Write("\r");
-                    Console.Write(prefix + GetBufferAsString());
+                    WriteHighlight(prefix + GetBufferAsString());
 
                     BufferIndex = Console.CursorLeft - prefix.Length;
                     break;

@@ -16,8 +16,9 @@ Introducing **`buffer`** — a lightweight NuGet package that gives you real-tim
 
 ## ✨ Features
 
-- `✅` Real-time updates while users type
-- `🧠` Manual control over the input buffer
+- `✅` **Real-time updates while users type**
+- `📜` **Real-time Syntax highlighting.**
+- `🧠` **Manual control over the input buffer**
 - `🧵` Thread-safe & supports multithreading
 - `🔠` Access buffer as `char[]` or `string`
 - `💻` Compatible with a wide range of .NET Frameworks
@@ -26,10 +27,6 @@ Introducing **`buffer`** — a lightweight NuGet package that gives you real-tim
 - `🛠️` Easy to use and integrate
 - `📦` Lightweight and fast
 - `🔧` Customizable buffer size
-
-## 🌟 Upcoming Features
-
-- `📜` Real-time syntax highlighting.
 
 ---
 
@@ -94,6 +91,36 @@ InputBuffer.ClearBuffer();
 
 ### Here is a demo of Limited Buffer Size of 10 characters
 ![buffer-limit](https://github.com/user-attachments/assets/3f459e05-65dc-4ce7-8f8a-20c09f660702)
+
+### 🧩 Syntax Highlighting in Real-time
+```cpp
+PradBuffer Buffer = new PradBuffer();
+
+string s = "";
+
+Buffer.SyntaxHighlights.Add("prad", ConsoleColor.Red);
+Buffer.SyntaxHighlights.Add("static", ConsoleColor.Blue);
+Buffer.SyntaxHighlights.Add("public", ConsoleColor.Green);
+Buffer.SyntaxHighlights.Add("=", ConsoleColor.Yellow);
+
+Buffer.EnableSyntaxHighlighting = true;
+
+while(true){
+    Buffer.GetInput("> ");
+
+    s = Buffer.GetBufferAsString();
+
+    Buffer.ClearBuffer();
+
+    if(s == "exit") break;
+
+    Console.WriteLine($"Value Entered : \"{s}\"");
+}
+```
+
+#### Demo of Syntax Highlighting
+
+
 
 ### 🚀 Using its maximum potential
 
