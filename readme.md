@@ -90,7 +90,7 @@ InputBuffer.ClearBuffer();
 ```
 
 ### Here is a demo of Limited Buffer Size of 10 characters
-![buffer-limit](https://github.com/user-attachments/assets/3f459e05-65dc-4ce7-8f8a-20c09f660702)
+![buffer-limit](https://raw.githubusercontent.com/pradosh-arduino/buffer/main/buffer-limit.gif)
 
 ### 🧩 Syntax Highlighting in Real-time
 ```cpp
@@ -119,8 +119,7 @@ while(true){
 ```
 
 #### Demo of Syntax Highlighting
-
-
+![Syntax Highlighting Demo](https://raw.githubusercontent.com/pradosh-arduino/buffer/main/syntax-highlights.gif)
 
 ### 🚀 Using its maximum potential
 
