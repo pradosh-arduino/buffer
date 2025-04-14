@@ -43,13 +43,21 @@ public class PradBuffer
     }
 
     /// <summary>
-    /// Function to add a character to the buffer.
+    /// Function to insert a character to the buffer.
     /// </summary>
-    /// <param name="c">The character to be added.</param>
-    private void AddChar(char c)
+    /// <param name="c">The character to be inserted.</param>
+    private void InsertChar(char c)
     {
-        if (BufferIndex >= buffer.Length)
+        if (Length >= BufferSize)
+        {
+            // Console.Beep(); // Indicate buffer overflow
             return;
+        }
+
+        if (BufferIndex < Length)
+        {
+            Array.Copy(buffer, BufferIndex, buffer, BufferIndex + 1, Length - BufferIndex);
+        }
 
         buffer[BufferIndex] = c;
         BufferIndex++;
@@ -80,62 +88,147 @@ public class PradBuffer
 
             current = Console.ReadKey(true);
 
-            if (current.Key == ConsoleKey.Enter)
-            {
-                if (Length != 0)
-                    Console.WriteLine();
+            bool isCtrl = (current.Modifiers & ConsoleModifiers.Control) != 0;
 
-                for (int i = 0; i < Length; i++)
+            if (isCtrl)
+            {
+                switch (current.Key)
                 {
-                    if (buffer[i] == '\0')
-                    {
-                        Length = i;
+                    case ConsoleKey.LeftArrow:
+                        // Skip any whitespace first
+                        while (BufferIndex > 0 && char.IsWhiteSpace(buffer[BufferIndex - 1]))
+                        {
+                            BufferIndex--;
+                            Console.CursorLeft--;
+                        }
+
+                        // Then skip the word
+                        while (BufferIndex > 0 && !char.IsWhiteSpace(buffer[BufferIndex - 1]))
+                        {
+                            BufferIndex--;
+                            Console.CursorLeft--;
+                        }
+
+                        // Include first letter
+                        if (BufferIndex < Length)
+                        {
+                            BufferIndex++;
+                            Console.CursorLeft++;
+                        }
                         break;
-                    }
-                }
 
-                break;
-            }
-            else if (current.Key == ConsoleKey.Backspace)
-            {
-                if (BufferIndex > 0)
-                {
-                    BufferIndex--;
-                    Length--;
-                    Console.Write("\b \b");
+                    case ConsoleKey.RightArrow:
+                        // Skip current word
+                        while (BufferIndex < Length && !char.IsWhiteSpace(buffer[BufferIndex]))
+                        {
+                            BufferIndex++;
+                            Console.CursorLeft++;
+                        }
+
+                        // Then skip any whitespace after the word
+                        while (BufferIndex < Length && char.IsWhiteSpace(buffer[BufferIndex]))
+                        {
+                            BufferIndex++;
+                            Console.CursorLeft++;
+                        }
+
+                        // Include first letter
+                        if (BufferIndex < Length)
+                        {
+                            BufferIndex--;
+                            Console.CursorLeft--;
+                        }
+                        break;
                 }
             }
-            else if (current.Key == ConsoleKey.LeftArrow)
+
+            switch (current.Key)
             {
-                if (Console.CursorLeft > 0)
-                {
-                    Console.CursorLeft--;
-                    BufferIndex--;
-                }
+                case ConsoleKey.Enter:
+                    if (Length != 0)
+                        Console.WriteLine();
+
+                    for (int i = 0; i < Length; i++)
+                    {
+                        if (buffer[i] == '\0')
+                        {
+                            Length = i;
+                            break;
+                        }
+                    }
+
+                    return;
+
+                case ConsoleKey.Backspace:
+                    if (BufferIndex > 0)
+                    {
+                        BufferIndex--;
+                        Length--;
+                        Console.Write("\b \b");
+
+                        // Shift characters to the left
+                        for (int i = BufferIndex; i < Length; i++)
+                        {
+                            buffer[i] = buffer[i + 1];
+                        }
+
+                        buffer[Length] = '\0'; // Clear the last character
+
+                        // Redraw the buffer
+                        Console.Write("\r");
+                        for (int i = 0; i < Length; i++)
+                        {
+                            Console.Write(" ");
+                        }
+                        Console.Write("\r");
+                        Console.Write(GetBufferAsString() + " ");
+
+                        Console.CursorLeft = BufferIndex;
+                    }
+                    break;
+
+                case ConsoleKey.LeftArrow:
+                    if (Console.CursorLeft > 0)
+                    {
+                        Console.CursorLeft--;
+                        BufferIndex = Console.CursorLeft;
+                    }
+                    break;
+
+                case ConsoleKey.RightArrow:
+                    if (Console.CursorLeft < Length)
+                    {
+                        Console.CursorLeft++;
+                        BufferIndex = Console.CursorLeft;
+                    }
+                    break;
+
+                case ConsoleKey.Home:
+                    Console.Write("\r");
+                    BufferIndex = 0;
+                    break;
+
+                case ConsoleKey.End:
+                    Console.Write("\r");
+                    Console.CursorLeft = Length;
+                    BufferIndex = Length;
+                    break;
+
+                default:
+                    InsertChar(current.KeyChar);
+
+                    Console.Write("\r");
+                    for (int i = 0; i < Length; i++)
+                    {
+                        Console.Write(" ");
+                    }
+                    Console.Write("\r");
+                    Console.Write(GetBufferAsString());
+
+                    BufferIndex = Console.CursorLeft;
+                    break;
             }
-            else if (current.Key == ConsoleKey.RightArrow)
-            {
-                if (Console.CursorLeft < Length)
-                {
-                    Console.CursorLeft++;
-                    BufferIndex++;
-                }
-            }
-            else if (current.Key == ConsoleKey.Home)
-            {
-                Console.Write("\r");
-                BufferIndex = 0;
-            }
-            else if (current.Key == ConsoleKey.End)
-            {
-                Console.CursorLeft = Length;
-                BufferIndex = Length;
-            }
-            else
-            {
-                AddChar(current.KeyChar);
-                Console.Write(current.KeyChar);
-            }
+
         }
     }
 
@@ -151,66 +244,155 @@ public class PradBuffer
 
         while (true)
         {
-            if (!Console.KeyAvailable) continue;
+            if (!Console.KeyAvailable)
+            {
+                Thread.Sleep(10); // Prevent CPU overloading.
+                continue;
+            }
 
             current = Console.ReadKey(true);
 
-            if (current.Key == ConsoleKey.Enter)
-            {
-                if (Length != 0)
-                    Console.WriteLine();
+            bool isCtrl = (current.Modifiers & ConsoleModifiers.Control) != 0;
 
-                for (int i = 0; i < Length; i++)
+            if (isCtrl)
+            {
+                switch (current.Key)
                 {
-                    if (buffer[i] == '\0')
-                    {
-                        Length = i;
+                    case ConsoleKey.LeftArrow:
+                        // Skip any whitespace first
+                        while (BufferIndex > 0 && char.IsWhiteSpace(buffer[BufferIndex - 1]))
+                        {
+                            BufferIndex--;
+                            Console.CursorLeft--;
+                        }
+
+                        // Then skip the word
+                        while (BufferIndex > 0 && !char.IsWhiteSpace(buffer[BufferIndex - 1]))
+                        {
+                            BufferIndex--;
+                            Console.CursorLeft--;
+                        }
+
+                        // Include first letter
+                        if (BufferIndex < Length)
+                        {
+                            BufferIndex++;
+                            Console.CursorLeft++;
+                        }
                         break;
-                    }
-                }
 
-                break;
-            }
-            else if (current.Key == ConsoleKey.Backspace)
-            {
-                if (BufferIndex > 0)
-                {
-                    BufferIndex--;
-                    Length--;
-                    Console.Write("\b \b");
+                    case ConsoleKey.RightArrow:
+                        // Skip current word
+                        while (BufferIndex < Length && !char.IsWhiteSpace(buffer[BufferIndex]))
+                        {
+                            BufferIndex++;
+                            Console.CursorLeft++;
+                        }
+
+                        // Then skip any whitespace after the word
+                        while (BufferIndex < Length && char.IsWhiteSpace(buffer[BufferIndex]))
+                        {
+                            BufferIndex++;
+                            Console.CursorLeft++;
+                        }
+
+                        // Include first letter
+                        if (BufferIndex < Length)
+                        {
+                            BufferIndex--;
+                            Console.CursorLeft--;
+                        }
+                        break;
                 }
             }
-            else if (current.Key == ConsoleKey.LeftArrow)
+
+
+            switch (current.Key)
             {
-                if (Console.CursorLeft > prefix.Length)
-                {
-                    Console.CursorLeft--;
-                    BufferIndex--;
-                }
-            }
-            else if (current.Key == ConsoleKey.RightArrow)
-            {
-                if (Console.CursorLeft < Length + prefix.Length)
-                {
-                    Console.CursorLeft++;
-                    BufferIndex++;
-                }
-            }
-            else if (current.Key == ConsoleKey.Home)
-            {
-                Console.Write("\r");
-                Console.CursorLeft += prefix.Length;
-                BufferIndex = 0;
-            }
-            else if (current.Key == ConsoleKey.End)
-            {
-                Console.CursorLeft = Length + prefix.Length;
-                BufferIndex = Length;
-            }
-            else
-            {
-                AddChar(current.KeyChar);
-                Console.Write(current.KeyChar);
+                case ConsoleKey.Enter:
+                    if (Length != 0)
+                        Console.WriteLine();
+
+                    for (int i = 0; i < Length; i++)
+                    {
+                        if (buffer[i] == '\0')
+                        {
+                            Length = i;
+                            break;
+                        }
+                    }
+
+                    return;
+
+                case ConsoleKey.Backspace:
+                    if (BufferIndex > 0)
+                    {
+                        BufferIndex--;
+                        Length--;
+                        Console.Write("\b \b");
+
+                        // Shift characters to the left
+                        for (int i = BufferIndex; i < Length; i++)
+                        {
+                            buffer[i] = buffer[i + 1];
+                        }
+
+                        buffer[Length] = '\0'; // Clear the last character
+
+                        // Redraw the buffer
+                        Console.Write("\r");
+                        for (int i = 0; i < Length + prefix.Length; i++)
+                        {
+                            Console.Write(" ");
+                        }
+                        Console.Write("\r");
+                        Console.Write(prefix + GetBufferAsString() + " ");
+
+                        Console.CursorLeft = BufferIndex + prefix.Length;
+                    }
+                    break;
+
+                case ConsoleKey.LeftArrow:
+                    if (Console.CursorLeft > prefix.Length)
+                    {
+                        Console.CursorLeft--;
+                        BufferIndex = Console.CursorLeft - prefix.Length;
+                    }
+                    break;
+
+                case ConsoleKey.RightArrow:
+                    if (Console.CursorLeft < Length + prefix.Length)
+                    {
+                        Console.CursorLeft++;
+                        BufferIndex = Console.CursorLeft - prefix.Length;
+                    }
+                    break;
+
+                case ConsoleKey.Home:
+                    Console.Write("\r");
+                    Console.CursorLeft += prefix.Length;
+                    BufferIndex = 0;
+                    break;
+
+                case ConsoleKey.End:
+                    Console.Write("\r");
+                    Console.CursorLeft += Length + prefix.Length;
+                    BufferIndex = Length;
+                    break;
+
+                default:
+                    InsertChar(current.KeyChar);
+
+                    Console.Write("\r");
+                    for (int i = 0; i < Length + prefix.Length; i++)
+                    {
+                        Console.Write(" ");
+                    }
+                    Console.Write("\r");
+                    Console.Write(prefix + GetBufferAsString());
+
+                    BufferIndex = Console.CursorLeft - prefix.Length;
+                    break;
             }
         }
     }

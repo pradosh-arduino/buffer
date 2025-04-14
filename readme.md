@@ -16,11 +16,20 @@ Introducing **`buffer`** — a lightweight NuGet package that gives you real-tim
 
 ## ✨ Features
 
-- ✅ Real-time updates while users type
-- 🧠 Manual control over the input buffer
-- 🧵 Thread-safe & supports multithreading
-- 🔠 Access buffer as `char[]` or `string`
-- 💻 Compatible with a wide range of .NET Frameworks
+- `✅` Real-time updates while users type
+- `🧠` Manual control over the input buffer
+- `🧵` Thread-safe & supports multithreading
+- `🔠` Access buffer as `char[]` or `string`
+- `💻` Compatible with a wide range of .NET Frameworks
+- `🎉` Emoji support for fun prompts
+- `🔒` Secure input handling
+- `🛠️` Easy to use and integrate
+- `📦` Lightweight and fast
+- `🔧` Customizable buffer size
+
+## 🌟 Upcoming Features
+
+- `📜` Real-time syntax highlighting.
 
 ---
 
@@ -82,6 +91,10 @@ string value = InputBuffer.GetBufferAsString();
 // Clear when done
 InputBuffer.ClearBuffer();
 ```
+
+### Here is a demo of Limited Buffer Size of 10 characters
+
+
 
 ### 🚀 Using its maximum potential
 
